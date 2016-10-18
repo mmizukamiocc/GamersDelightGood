@@ -2,13 +2,20 @@ package edu.orangecoastcollege.cs273.mpaulding.gamersdelight;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +61,28 @@ public class GameListAdapter extends ArrayAdapter<Game> {
         //TODO:  Code for getting the view of a list item correctly inflated.
         LinearLayout gameListLinearLayout = (LinearLayout) view.findViewById(R.id.gameListLinearLayout);
         ImageView gameListImageView = (ImageView) view.findViewById(R.id.gameListImageView);
+        TextView gameListNameTextView = (TextView) view.findViewById(R.id.gameDetailsNameTextView);
+        TextView gameListDescriptionTextVew = (TextView) view.findViewById(R.id.gameListDescriptionTextView);
+        RatingBar gameListRatingBar = (RatingBar) view.findViewById(R.id.gameListRatingBar);
+
+        gameListLinearLayout.setTag(selectedGame);
+
+        gameListNameTextView.setText(selectedGame.getName());
+        gameListDescriptionTextVew.setText(selectedGame.getDescription());
+        gameListRatingBar.setRating(selectedGame.getRating());
+
+        AssetManager am = mContext.getAssets();
+
+        try{
+            InputStream stream = am.open(selectedGame.getImageName());
+            Drawable event = Drawable.createFromStream(stream,selectedGame.getName());
+            gameListImageView.setImageDrawable(event);
+        }
+        catch(IOException e)
+        {
+            Log.e("GamersDelight"," Can not load the image.");
+        }
+
 
         return view;
     }
