@@ -28,6 +28,11 @@ public class GameListAdapter extends ArrayAdapter<Game> {
     private List<Game> mGamesList = new ArrayList<>();
     private int mResourceId;
 
+    private LinearLayout gameListLinearLayout;
+    private ImageView gameListImageView;
+    private  TextView gameListNameTextView;
+    private TextView gameListDescriptionTextVew;
+    private RatingBar gameListRatingBar;
     /**
      * Creates a new <code>GameListAdapter</code> given a mContext, resource id and list of games.
      *
@@ -59,11 +64,11 @@ public class GameListAdapter extends ArrayAdapter<Game> {
         View view = inflater.inflate(mResourceId, null);
 
         //TODO:  Code for getting the view of a list item correctly inflated.
-        LinearLayout gameListLinearLayout = (LinearLayout) view.findViewById(R.id.gameListLinearLayout);
-        ImageView gameListImageView = (ImageView) view.findViewById(R.id.gameListImageView);
-        TextView gameListNameTextView = (TextView) view.findViewById(R.id.gameDetailsNameTextView);
-        TextView gameListDescriptionTextVew = (TextView) view.findViewById(R.id.gameListDescriptionTextView);
-        RatingBar gameListRatingBar = (RatingBar) view.findViewById(R.id.gameListRatingBar);
+        gameListLinearLayout = (LinearLayout) view.findViewById(R.id.gameListLinearLayout);
+        gameListImageView = (ImageView) view.findViewById(R.id.gameListImageView);
+        gameListNameTextView = (TextView) view.findViewById(R.id.gameListNameTextView);
+        gameListDescriptionTextVew = (TextView) view.findViewById(R.id.gameListDescriptionTextView);
+        gameListRatingBar = (RatingBar) view.findViewById(R.id.gameListRatingBar);
 
         gameListLinearLayout.setTag(selectedGame);
 
@@ -80,7 +85,7 @@ public class GameListAdapter extends ArrayAdapter<Game> {
         }
         catch(IOException e)
         {
-            Log.e("GamersDelight"," Can not load the image.");
+            Log.e("Gamers Delight","Error loading " + selectedGame.getImageName(),e);
         }
 
 

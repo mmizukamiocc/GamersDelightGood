@@ -1,10 +1,12 @@
 package edu.orangecoastcollege.cs273.mpaulding.gamersdelight;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import java.util.List;
@@ -17,6 +19,7 @@ public class GameListActivity extends AppCompatActivity {
     private ListView gamesListView;
     private EditText descriptionEditText;
     private EditText nameEditText;
+    private RatingBar gameRatingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +48,27 @@ public class GameListActivity extends AppCompatActivity {
 
         descriptionEditText = (EditText) findViewById(R.id.descriptionEditText);
         nameEditText = (EditText) findViewById(R.id.nameEditText);
+        gameRatingBar = (RatingBar) findViewById(R.id.gameRatingBar);
     }
 
     public void viewGameDetails(View view) {
 
         // TODO: Use an Intent to start the GameDetailsActivity with the data it needs to correctly inflate its views.
+        Intent detailsIntent = new Intent(this,GameDetailsActivity.class);
+        Game selectedGame = (Game) view.getTag();
+
+        detailsIntent.putExtra("ImageName",selectedGame.getImageName().toString());
+        detailsIntent.putExtra("Name",selectedGame.getName().toString());
+        detailsIntent.putExtra("Description",selectedGame.getDescription().toString());
+        detailsIntent.putExtra("Rating",selectedGame.getRating());
+        startActivity(detailsIntent);
     }
 
     public void addGame(View view)
     {
         String name = nameEditText.getText().toString();
         String description = descriptionEditText.getText().toString();
-
+        float rating = gameRatingBar.getRating();
         // TODO:  Add a game to the database, list, list adapter
         if(name.isEmpty()||description.isEmpty())
         {
@@ -64,7 +76,7 @@ public class GameListActivity extends AppCompatActivity {
         }
         else
         {
-            Game newGame = new Game(name,description,0);
+            Game newGame = new Game(name,description,rating);
 
             gamesListAdapter.add(newGame);
             db.addGame(newGame);
@@ -77,6 +89,8 @@ public class GameListActivity extends AppCompatActivity {
 
         nameEditText.setText("");
         descriptionEditText.setText("");
+        gameRatingBar.setRating(0);
+
 
     }
 
